@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>{% block title %} Polls Project {% endblock %}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{% static 'materialize/css/materialize.min.css' %}">
+  <link rel="stylesheet" href="{% static 'materialize/font/icon.css' %}">
+  <link rel="stylesheet" href="{% static 'css/Chart.min.css' %}">
+</head>
+<body>
+  <main>
+    <div class="row">
+      <div class="col s12 white-text center-align red darken-3">
+        <header>
+          <h1>Polls Project with Chart Js</h1>
+          <p class="flow-text">Tu opinión es muy importante para nosotros!
+          </p>
+        </header>
+      </div>
+    </div>
+    <section class="section">
+      {% block content %}{% endblock %}
+    </section>
+  </main>
+ <script src="{% static 'js/jquery.min.js' %}"></script>
+ <script src="{% static 'materialize/js/materialize.min.js' %}"></script>
+ <script src="{% static 'js/Chart.min.js' %}"></script>
+  {% block js %}{% endblock %}
+</body>
+</html>
