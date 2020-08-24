@@ -1,14 +1,14 @@
 from django.db import models
 from django.urls import reverse
 
-from .managers import PollManager
+from .managers import QuestionManager
 
 
-class Poll(models.Model):
+class Question(models.Model):
     text = models.CharField(max_length=100)
     open = models.BooleanField(default=True)
 
-    objects = PollManager()
+    objects = QuestionManager()
 
     def __str__(self):
         return self.text
@@ -21,7 +21,7 @@ class Choice(models.Model):
     text = models.CharField(max_length=100)
     votes = models.PositiveIntegerField(default=0)
     poll = models.ForeignKey(
-        Poll,
+        Question,
         on_delete=models.CASCADE,
         related_name='choices'
     )

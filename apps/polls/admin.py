@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Poll, Choice
+from .models import Question, Choice
 
 admin.site.site_header = 'Polls Project'
 
@@ -10,8 +10,8 @@ class ChoiceInline(admin.StackedInline):
     extra = 1
 
 
-@admin.register(Poll)
-class PollAdmin(admin.ModelAdmin):
+@admin.register(Question)
+class QuestionAdmin(admin.ModelAdmin):
     list_display = ('text', 'open', )
     list_filter = ('open', )
     inlines = [ChoiceInline]

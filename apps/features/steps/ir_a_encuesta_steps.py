@@ -2,12 +2,12 @@ from django.urls import reverse
 
 from behave import given, when, then
 
-from apps.polls.factories import PollFactory, ChoiceFactory
+from apps.polls.factories import QuestionFactory, ChoiceFactory
 
 
 @given('que hay una encuesta llamada {name}')
 def step_impl(context, name):
-    context.poll = PollFactory.create(text=name)
+    context.poll = QuestionFactory.create(text=name)
 
 
 @given('le agregaron las opciones {si} y {no}')

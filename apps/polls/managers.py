@@ -1,12 +1,12 @@
 from django.db import models
 
-from .querysets import PollQuerySet
+from .querysets import QuestionQuerySet
 
 
-class PollManager(models.Manager):
+class QuestionManager(models.Manager):
 
     def get_queryset(self):
-        return PollQuerySet(self.model, using=self._db)
+        return QuestionQuerySet(self.model, using=self._db)
 
     def open(self):
         return self.get_queryset().open()

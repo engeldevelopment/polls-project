@@ -1,12 +1,12 @@
 from factory.django import DjangoModelFactory
 from factory import SubFactory
 
-from .models import Poll, Choice
+from .models import Question, Choice
 
 
-class PollFactory(DjangoModelFactory):
+class QuestionFactory(DjangoModelFactory):
     class Meta:
-        model = Poll
+        model = Question
 
     text = 'Mi encuesta'
     open = True
@@ -17,4 +17,4 @@ class ChoiceFactory(DjangoModelFactory):
         model = Choice
 
     text = 'Opcion'
-    poll = SubFactory(PollFactory)
+    poll = SubFactory(QuestionFactory)

@@ -2,12 +2,12 @@ from django.urls import reverse
 
 from behave import given, when, then
 
-from apps.polls.factories import PollFactory
+from apps.polls.factories import QuestionFactory
 
 
 @given('que se agregó la encuesta {text} y esta abierta')
 def step_impl(context, text):
-    context.poll = PollFactory(
+    context.poll = QuestionFactory(
         text=text,
         open=True
     )
@@ -29,7 +29,7 @@ def step_impl(context, text):
 
 @given('que se agregó la encuesta {text} pero esta cerrada')
 def step_impl(context, text):
-    context.poll = PollFactory(
+    context.poll = QuestionFactory(
         text=text,
         open=False
     )

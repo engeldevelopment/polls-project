@@ -1,18 +1,18 @@
 from django.views import generic
-from .models import Poll, Choice
+from .models import Question, Choice
 
 
-class PollListView(generic.ListView):
-    model = Poll
+class QuestionListView(generic.ListView):
+    model = Question
     template_name = 'polls/index.html'
     context_object_name = 'polls'
 
     def get_queryset(self):
-        return Poll.objects.open()
+        return Question.objects.open()
 
 
-class PollDetailView(generic.DeleteView):
-    model = Poll
+class QuestionDetailView(generic.DeleteView):
+    model = Question
     template_name = 'polls/detail.html'
     context_object_name = 'poll'
 

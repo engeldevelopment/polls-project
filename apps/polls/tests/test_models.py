@@ -1,24 +1,24 @@
 from django.test import TestCase
 
-from ..factories import PollFactory, ChoiceFactory
-from ..models import Poll
+from ..factories import QuestionFactory, ChoiceFactory
+from ..models import Question
 
 
-class PollTest(TestCase):
+class QuestionTest(TestCase):
 
     def test_no_hay_encuestas_abiertas(self):
 
-        self.assertEqual(0, Poll.objects.open().count())
+        self.assertEqual(0, Question.objects.open().count())
 
     def test_cuendo_hay_encuestas_abiertas_deben_aparecer(self):
 
-        PollFactory.create(open=True)
+        QuestionFactory.create(open=True)
 
-        self.assertEqual(1, Poll.objects.open().count())
+        self.assertEqual(1, Question.objects.open().count())
 
     def test_puedo_agregar_opciones_a_una_encuesta(self):
 
-        poll = PollFactory.create(text="¿Las caraotas llevan azúcar?")
+        poll = QuestionFactory.create(text="¿Las caraotas llevan azúcar?")
 
         ChoiceFactory.create(text="si", poll=poll)
         ChoiceFactory.create(text="no", poll=poll)
