@@ -8,4 +8,4 @@ class PollListView(generic.ListView):
     context_object_name = 'polls'
 
     def get_queryset(self):
-        return Poll.objects.filter(open=True)
+        return Poll.objects.open()
