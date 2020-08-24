@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %} {{ block.super }} | {{ poll.text }} {% endblock %}
+
+{% block content %}
+<div class="row">
+  <div class="col s12">
+    <article class="card">
+      <div class="card-content">
+        <h2 class="card-title">Encuesta: <span class="pink-text"> {{ poll.text }} </span> </h2>
+      </div>
+      <div class="card-content">
+        <form method="POST" action=""> {% csrf_token %}
+          {% for choice in choices %}
+          <div class="row">
+            <div class="col s12">
+              <label>
+                <input type="radio" name="choice" value="{{ choice.pk }}">
+                <span> {{ choice.text }} </span>
+              </label>
+            </div>
+          </div>
+          {% endfor %}
+          <button class="btn pink darken-2 waves-effect waves-light" type="submit">
+            Votar <i class="material-icons right">send</i>
+          </button>
+          <a class="btn grey darken-3 waves-effect waves-light" href="{% url 'polls:index' %}">
+            Regresar <i class="material-icons right">close</i>
+          </a>
+        </form>
+      </div>
+    </article>
+  </div>
+</div>
+{% endblock %}

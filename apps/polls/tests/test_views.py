@@ -1,7 +1,7 @@
 from django.test import TestCase
 from django.urls import reverse
 
-from ..factories import PollFactory
+from ..factories import PollFactory, ChoiceFactory
 
 
 class PollListViewTest(TestCase):
@@ -33,3 +33,21 @@ class PollListViewTest(TestCase):
         response = self.client.get(self.url)
 
         self.assertContains(response, 'No hay encuestas abiertas.')
+
+
+class PollDetailView(TestCase):
+
+    def test_puedo_ver_las_opciones_de_una_encuesta(self):
+
+        poll = PollFactory.create(text='Mi encuesta')
+
+        ChoiceFactory.create(text='Uno', poll=poll)
+        ChoiceFactory.create(text='Dos', poll=poll)
+
+        url = reverse('polls:detail', kwargs={'pk': poll.pk})
+
+        response = self.client.get(url)
+
+        self.assertContains(response, 'Uno')
+        self.assertContains(response, 'Dos')
+        self.assertEqual(2, len(response.context['choices']))

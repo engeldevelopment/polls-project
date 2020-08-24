@@ -11,8 +11,8 @@
         <h4 class="card-title center-align orange-text">{{ poll.text }}</h4>
       </div>
       <div class="card-action">
-        <a href="#" class="btn grey darken-3 waves-effect waves-light">
-          Ir a encueta <i class="material-icons right">arrow_right</i>
+        <a href="{{ poll.get_absolute_url }}" class="btn grey darken-3 waves-effect waves-light" data-encuesta="{{ poll.pk }}">
+          Ir a encuesta <i class="material-icons right">arrow_right</i>
         </a>
       </div>
     </article>
