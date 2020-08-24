@@ -1,5 +1,11 @@
-from django.shortcuts import render
+from django.views import generic
+from .models import Poll
 
 
-def index(request):
-    return render(request, 'polls/index.html')
+class PollListView(generic.ListView):
+    model = Poll
+    template_name = 'polls/index.html'
+    context_object_name = 'polls'
+
+    def get_queryset(self):
+        return Poll.objects.filter(open=True)
