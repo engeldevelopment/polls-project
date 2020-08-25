@@ -14,7 +14,7 @@ jobs:
     container:
       image: python:3.7
       env:
-        DJANGO_SETTINGS_MODULE: config.settings.ci
+        DJANGO_SETTINGS_MODULE: config.settings.tests
     steps:
       - uses: actions/checkout@v2
       - name: Instalando dependecias
