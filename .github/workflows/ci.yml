@@ -1,0 +1,25 @@
+name: Integración continua (Pruebas y Coverage)
+
+on:
+  push:
+    paths-ignore:
+      - '*.md'
+  pull_request:
+    paths-ignore:
+      - '*.md'
+
+jobs:
+  unittest_and_coverage:
+    runs-on: ubuntu-18.04
+    container:
+      image: python:3.7
+      env:
+        DJANGO_SETTINGS_MODULE: config.settings.tests
+    steps:
+      - uses: actions/checkout@v2
+      - name: Instalando dependecias
+        run: pip install -r requirements/ci.txt
+      - name: Corriendo pruebas
+        run: make test
+      - name: Pasando el linter y obteniedo el coverage
+        run: make coverage_and_linter

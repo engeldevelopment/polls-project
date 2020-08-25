@@ -1,0 +1,11 @@
+[run]
+source = apps
+
+[report]
+ignore_errors = True
+omit =
+  */tests/*
+  */migrations/*
+  */admin.py
+  */apps.py
+  */__init__.py
