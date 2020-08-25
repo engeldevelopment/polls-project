@@ -20,4 +20,4 @@ jobs:
       - name: Instalando dependecias
         run: pip install -r requirements/ci.txt
       - name: Corriendo pruebas
-        run: python manage.py test
+        run: python3 manage.py test
