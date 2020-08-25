@@ -23,17 +23,48 @@ Los pasos son:
   * Instala las dependencias con este comando:
     ```bash
       pip install -r requirements/dev.txt
-     ```bash
+     ```
   * Corre el proyecto :smile:
     ```bash
       make run
     ```
    
-   ## Como correr los tests del proyecto
+   ## ¿Cómo correr los tests del proyecto?
    
    Para correr las pruebas unitarias:
+   
+   ```bash
+     make test
+   ```
     
-    ```bash
-      make test
-    ```
+   Para correr el coverage:
+   
+   ```bash
+     make coverage
+   ```
+   ó si quiere ver la calidad de el código:
+   
+   ```bash
+     make coverage_and_linter
+   ```
+     
+   Si quires correr los test E2E debes instalar primero del driver de firefox ubicado en este repo:
+   
+   * https://github.com/mozilla/geckodriver/releases
     
+   Una vez descargado el driver, descomprimelo y muevelo a la carpeta **/usr/local/bin**.
+   ```bash
+  sudo mv driver(según la ubicación) /usr/local/bin
+  ```
+  Ahora, si llevaste cada paso al :foot: de la letra, corre el siguiente comando:
+  
+  ```bash
+   make test_e2e
+   ```
+  
+  Y wala! Verás la ejecución de los pruebas :smile:.
+  
+  ## Para finalizar
+  
+  Te recomiendo que corras :runner: el comando ``` make coverage_and_linter``` cada vez que agregues nuevo código 
+  para saber la salud de tu código.
