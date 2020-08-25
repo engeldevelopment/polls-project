@@ -21,3 +21,5 @@ jobs:
         run: pip install -r requirements/ci.txt
       - name: Corriendo pruebas
         run: make test
+      - name: Pasando el linter y obteniedo el coverage
+        run: make coverage
