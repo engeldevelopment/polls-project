@@ -2,3 +2,4 @@
 
 factory_boy==3.0.1
 coverage==5.2.1
+flake8==3.8.3
