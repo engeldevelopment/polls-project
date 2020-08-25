@@ -28,7 +28,8 @@ def step_impl(context):
 @then('podré ver sus opciones {si} y {no}')
 def step_impl(context, si, no):
 
-    opciones = context.browser.find_element_by_css_selector('input[type="radio"]').text
+    opciones = context.browser\
+        .find_element_by_css_selector('input[type="radio"]').text
 
     context.test.assertIn(opciones, si)
     context.test.assertIn(opciones, no)

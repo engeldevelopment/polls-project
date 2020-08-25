@@ -22,4 +22,4 @@ jobs:
       - name: Corriendo pruebas
         run: make test
       - name: Pasando el linter y obteniedo el coverage
-        run: make coverage
+        run: make coverage_and_linter

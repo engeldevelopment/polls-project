@@ -1,0 +1,8 @@
+[flake8]
+max-line-length = 79
+count = True
+show-source = True
+statistics = True
+ignore = W191
+extend-exclude = manage.py, *migrations*
+per-file-ignores = apps/features/steps/*.py:F811
