@@ -1,4 +1,6 @@
+from django.shortcuts import render, get_object_or_404
 from django.views import generic
+
 from .models import Question, Choice
 
 
@@ -21,3 +23,19 @@ class QuestionDetailView(generic.DeleteView):
         choices = Choice.objects.filter(poll__pk=self.kwargs['pk'])
         context['choices'] = choices
         return context
+
+
+def vote(request):
+    question = get_object_or_404(Question, pk=request.POST['question'])
+    context = {}
+    try:
+        choice = question.choices.get(pk=request.POST['choice'])
+        choice.vote()
+    except(KeyError, Choice.DoesNotExist):
+        context = {
+            'poll': question,
+            'message': 'Debes elegir una opción por favor...',
+            'choices': question.choices.all()
+        }
+        return render(request, 'polls/detail.html', context)
+    return render(request, 'polls/detail.html')
