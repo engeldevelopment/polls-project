@@ -11,7 +11,7 @@ urlpatterns = [
         views.QuestionDetailView.as_view(),
         name='detail'
     ),
-    path('vote', views.vote, name='vote'),
+    path('vote', views.QuestionVoteView.as_view(), name='vote'),
     path(
         '<int:pk>/results',
         views.QuestionResultView.as_view(),

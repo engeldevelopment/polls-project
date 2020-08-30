@@ -26,21 +26,22 @@ class QuestionDetailView(generic.DeleteView):
         return context
 
 
-# TODO: Cambiar a una vista basada en clase
-def vote(request):
-    question = get_object_or_404(Question, pk=request.POST['question'])
+class QuestionVoteView(generic.View):
 
-    try:
-        choice = question.choices.get(pk=request.POST['choice'])
-        choice.vote()
-    except(KeyError, Choice.DoesNotExist):
-        context = {
-            'poll': question,
-            'message': 'Debes elegir una opción por favor...',
-            'choices': question.choices.all()
-        }
-        return render(request, 'polls/detail.html', context)
-    return redirect(reverse('polls:results', kwargs={'pk': question.pk}))
+    def post(self, request):
+        question = get_object_or_404(Question, pk=request.POST['question'])
+
+        try:
+            choice = question.choices.get(pk=request.POST['choice'])
+            choice.vote()
+        except(KeyError, Choice.DoesNotExist):
+            context = {
+                'poll': question,
+                'message': 'Debes elegir una opción por favor...',
+                'choices': question.choices.all()
+            }
+            return render(request, 'polls/detail.html', context)
+        return redirect(reverse('polls:results', kwargs={'pk': question.pk}))
 
 
 class QuestionResultView(generic.DetailView):
