@@ -51,3 +51,46 @@ class QuestionDetailView(TestCase):
         self.assertContains(response, 'Uno')
         self.assertContains(response, 'Dos')
         self.assertEqual(2, len(response.context['choices']))
+
+
+class QuestionVoteView(TestCase):
+
+    def setUp(self):
+
+        self.question = QuestionFactory.create(
+            text='Las mujeres son problemáticas'
+        )
+
+        self.opcion_si = ChoiceFactory.create(
+            text='Sí',
+            poll=self.question
+        )
+        ChoiceFactory.create(
+            text='No',
+            poll=self.question
+        )
+
+        self.url = reverse('polls:vote')
+
+    def test_cuando_no_elijo_una_opcion_da_error(self):
+        data = {
+            'choice': 0,
+            'question': self.question.pk
+        }
+
+        response = self.client.post(self.url, data)
+
+        self.assertContains(response, 'Debes elegir una opción por favor...')
+
+    def test_cuando_elijo_una_opcion_deberia_mostrar_los_resultados(self):
+        data = {
+            'choice': self.opcion_si.pk,
+            'question': self.question.pk
+        }
+
+        response = self.client.post(self.url, data)
+
+        self.assertRedirects(
+            response,
+            reverse('polls:results', kwargs={'pk': self.question.pk})
+        )

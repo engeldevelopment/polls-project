@@ -24,3 +24,14 @@ class QuestionTest(TestCase):
         ChoiceFactory.create(text="no", poll=poll)
 
         self.assertEqual(2, poll.choices.count())
+
+
+class ChoiceTest(TestCase):
+
+    def test_al_votar_deben_aumentar_sus_votos(self):
+
+        choice = ChoiceFactory.create(text='Sí')
+
+        choice.vote()
+
+        self.assertEqual(1, choice.votes)

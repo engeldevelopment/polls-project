@@ -16,6 +16,9 @@ class Question(models.Model):
     def get_absolute_url(self):
         return reverse('polls:detail', kwargs={'pk': self.pk})
 
+    def get_absolute_results_url(self):
+        return reverse('polls:results', kwargs={'pk': self.pk})
+
 
 class Choice(models.Model):
     text = models.CharField(max_length=100)
@@ -28,3 +31,7 @@ class Choice(models.Model):
 
     def __str__(self):
         return self.text
+
+    def vote(self):
+        self.votes += 1
+        self.save()
