@@ -1,4 +1,5 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import get_object_or_404, redirect, render
+from django.urls import reverse
 from django.views import generic
 
 from .models import Question, Choice
@@ -20,14 +21,15 @@ class QuestionDetailView(generic.DeleteView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        choices = Choice.objects.filter(poll__pk=self.kwargs['pk'])
+        choices = self.get_object().choices.all()
         context['choices'] = choices
         return context
 
 
+# TODO: Cambiar a una vista basada en clase
 def vote(request):
     question = get_object_or_404(Question, pk=request.POST['question'])
-    context = {}
+
     try:
         choice = question.choices.get(pk=request.POST['choice'])
         choice.vote()
@@ -38,4 +40,16 @@ def vote(request):
             'choices': question.choices.all()
         }
         return render(request, 'polls/detail.html', context)
-    return render(request, 'polls/detail.html')
+    return redirect(reverse('polls:results', kwargs={'pk': question.pk}))
+
+
+class QuestionResultView(generic.DetailView):
+    model = Question
+    template_name = 'polls/results.html'
+    context_object_name = 'question'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        choices = self.get_object().choices.all()
+        context['choices'] = choices
+        return context

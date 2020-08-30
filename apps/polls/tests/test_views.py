@@ -61,7 +61,7 @@ class QuestionVoteView(TestCase):
             text='Las mujeres son problemáticas'
         )
 
-        ChoiceFactory.create(
+        self.opcion_si = ChoiceFactory.create(
             text='Sí',
             poll=self.question
         )
@@ -81,3 +81,16 @@ class QuestionVoteView(TestCase):
         response = self.client.post(self.url, data)
 
         self.assertContains(response, 'Debes elegir una opción por favor...')
+
+    def test_cuando_elijo_una_opcion_deberia_mostrar_los_resultados(self):
+        data = {
+            'choice': self.opcion_si.pk,
+            'question': self.question.pk
+        }
+
+        response = self.client.post(self.url, data)
+
+        self.assertRedirects(
+            response,
+            reverse('polls:results', kwargs={'pk': self.question.pk})
+        )

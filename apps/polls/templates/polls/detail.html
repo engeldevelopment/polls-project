@@ -18,8 +18,8 @@
           {% for choice in choices %}
           <div class="row">
             <div class="col s12">
-              <label>
-                <input type="radio" name="choice" value="{{ choice.pk }}">
+              <label for="{{ choice.pk }}">
+                <input type="radio" name="choice" id="{{  choice.pk }}" value="{{ choice.pk }}">
                 <span> {{ choice.text }} </span>
               </label>
             </div>
