@@ -63,3 +63,14 @@ class QuestionAPIView(APITestCase):
         response = self.client.get(url)
 
         self.assertEqual(status.HTTP_204_NO_CONTENT, response.status_code)
+
+    def test_no_se_daran_resultados_de_una_encuesta_sin_opciones(self):
+        question = QuestionFactory.create(
+            text="Está cerrada",
+            open=True
+        )
+        url = reverse('polls:results_api', kwargs={'pk': question.pk})
+
+        response = self.client.get(url)
+
+        self.assertEqual(status.HTTP_204_NO_CONTENT, response.status_code)

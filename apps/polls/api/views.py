@@ -1,6 +1,6 @@
 from rest_framework import generics
 
-from .responses import QuestionIsClosed
+from .responses import QuestionIsClosed, QuestionWithoutResults
 from .serializers import QuestionSerializer
 from ..models import Question
 
@@ -13,4 +13,6 @@ class QuestionResultAPIView(generics.RetrieveAPIView):
         question = self.get_object()
         if not question.open:
             return QuestionIsClosed()
+        if question.choices.count() == 0:
+            return QuestionWithoutResults()
         return super().retrieve(request, *args, **kwargs)
