@@ -13,6 +13,9 @@ class Question(models.Model):
     def __str__(self):
         return self.text
 
+    def has_choices(self):
+        return self.choices.count() > 0
+
     def get_absolute_url(self):
         return reverse('polls:detail', kwargs={'pk': self.pk})
 

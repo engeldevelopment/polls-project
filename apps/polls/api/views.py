@@ -13,6 +13,6 @@ class QuestionResultAPIView(generics.RetrieveAPIView):
         question = self.get_object()
         if not question.open:
             return QuestionIsClosed()
-        if question.choices.count() == 0:
+        if not question.has_choices():
             return QuestionWithoutResults()
         return super().retrieve(request, *args, **kwargs)
