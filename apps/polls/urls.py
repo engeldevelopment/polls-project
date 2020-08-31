@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, include
 
 from . import views
 
@@ -17,4 +17,5 @@ urlpatterns = [
         views.QuestionResultView.as_view(),
         name='results'
     ),
+    path('api/', include('apps.polls.api.urls')),
 ]

@@ -18,3 +18,4 @@ class ChoiceFactory(DjangoModelFactory):
 
     text = 'Opcion'
     poll = SubFactory(QuestionFactory)
+    votes = 0
