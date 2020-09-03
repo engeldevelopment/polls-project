@@ -83,15 +83,7 @@ new Vue({
     makeGraphic(result) {
       var context = document.getElementById('result').getContext('2d');
 
-      // TODO: Do Refactor 
-      var labels = [];
-      var data = [];
-
-      for (choice of result.choices) {
-        labels.push(choice.text);
-        data.push(choice.votes);
-      }
-      // End Refactor
+      const {labels, data} = this.makeDataForGraphic(result);  
 
       new Chart(context, {
         type: 'pie',
@@ -109,6 +101,15 @@ new Vue({
           ]
         }
       });
+    },
+    makeDataForGraphic(result) {
+      let labels = [];
+      let data = [];
+      for (choice of result.choices) {
+        labels.push(choice.text);
+        data.push(choice.votes);
+      }
+      return { labels, data }
     }
   },
   created() {
