@@ -1,12 +1,22 @@
 {% extends 'base.html' %}
 
+{% load static %}
+
 {% block title %} {{ block.super }} | Resultados de {{ question.text }} {% endblock %}
 
 {% block content %}
-<div class="row">
+<div class="row" id="app">
+  
   <div class="col s12 l10 offset-l1">
     <article class="card">
       <div class="card-content">
+        {% if errors %}
+        <div>
+          {% for error in errors %}
+            <p class="red-text flow-text" data-error="error">{{ error }}</p>
+          {% endfor %}
+        </div>
+        {% else %}
         <h2 class="card-title pink-text">
           {{ question.text }}
         </h2>
@@ -22,6 +32,7 @@
           </li>
           {% endfor %}
         </ul>
+        {% endif %}
       </div>
       <div class="card-action">
         <a href="{% url 'polls:index' %}" class="btn grey darken-3">
@@ -31,4 +42,43 @@
     </article>
   </div>
 </div>
+{% endblock %}
+
+{% block js %}
+<script src="{% static 'js/vue.min.js' %}"></script>
+<script src="{% static 'js/axios.min.js' %}"></script>
+<script type="text/javascript">
+new Vue({
+  el: "#app",
+  delimiters: ['${', '}'],
+  data: {
+    error: "",
+    hasError: false,
+    poll: {}
+  },
+  methods: {
+    getResults() {
+      const END_POINT = '/api/v1/question/{{question.pk}}/results';
+      const self = this;
+
+      axios.get(END_POINT)
+        .then(response => {
+          self.handlerError(response.status)
+          console.log(response) 
+        })
+    },
+    handlerError(statusCode) {
+      const NO_CONTENT = 204;
+
+      switch (statusCode) {
+        case NO_CONTENT: self.hasError = true;
+          break;
+      }
+    }
+  },
+  created() {
+    this.getResults()
+  }
+}) 
+</script>
 {% endblock %}
