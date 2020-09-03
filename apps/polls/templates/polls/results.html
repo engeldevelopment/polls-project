@@ -6,7 +6,6 @@
 
 {% block content %}
 <div class="row" id="app">
-  
   <div class="col s12 l10 offset-l1">
     <article class="card">
       <div class="card-content">
@@ -32,6 +31,9 @@
           </li>
           {% endfor %}
         </ul>
+        <div class="card-content">
+          <canvas height="300" width="200" id="result"></canvas>
+        </div>
         {% endif %}
       </div>
       <div class="card-action">
@@ -52,9 +54,7 @@ new Vue({
   el: "#app",
   delimiters: ['${', '}'],
   data: {
-    error: "",
-    hasError: false,
-    poll: {}
+    hasError: false
   },
   methods: {
     getResults() {
@@ -63,17 +63,52 @@ new Vue({
 
       axios.get(END_POINT)
         .then(response => {
-          self.handlerError(response.status)
-          console.log(response) 
+          self.showResults(response);
         })
+    },
+    showResults(response) {
+      this.handlerError(response.status)
+      if (!this.hasError) {
+        this.makeGraphic(response.data)
+      }
     },
     handlerError(statusCode) {
       const NO_CONTENT = 204;
 
       switch (statusCode) {
-        case NO_CONTENT: self.hasError = true;
+        case NO_CONTENT: this.hasError = true;
           break;
       }
+    },
+    makeGraphic(result) {
+      var context = document.getElementById('result').getContext('2d');
+
+      // TODO: Do Refactor 
+      var labels = [];
+      var data = [];
+
+      for (choice of result.choices) {
+        labels.push(choice.text);
+        data.push(choice.votes);
+      }
+      // End Refactor
+
+      new Chart(context, {
+        type: 'pie',
+        data: {
+          labels: labels,
+          datasets: [
+            {
+              label: '# votos',
+              data: data,
+              backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(255, 206, 86, 0.2)'
+              ]
+            }
+          ]
+        }
+      });
     }
   },
   created() {
