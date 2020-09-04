@@ -94,3 +94,34 @@ class QuestionVoteView(TestCase):
             response,
             reverse('polls:results', kwargs={'pk': self.question.pk})
         )
+
+
+class QuestionResultViewTest(TestCase):
+
+    def test_no_se_mostraran_resultados_de_una_encuesta_cerrada(self):
+        question = QuestionFactory.create(
+            text='Test',
+            open=False
+        )
+        url = reverse('polls:results', kwargs={'pk': question.pk})
+
+        response = self.client.get(url)
+
+        self.assertContains(
+            response,
+            'Esta encuesta está cerrada.'
+        )
+
+    def test_no_se_mostraran_resultados_de_una_encuesta_sin_opciones(self):
+        question = QuestionFactory.create(
+            text='Test',
+            open=True
+        )
+        url = reverse('polls:results', kwargs={'pk': question.pk})
+
+        response = self.client.get(url)
+
+        self.assertContains(
+            response,
+            'De esta encuesta no hay resultados que mostrar.'
+        )

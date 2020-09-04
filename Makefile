@@ -23,3 +23,8 @@ test_e2e:
 lint:
 	@echo Pasando el linter
 	@flake8 apps/
+
+rm:
+	@rm -f -r .idea/
+	@rm -f -r .vscode/
+	@rm -f -r htmlcov/
