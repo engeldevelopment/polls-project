@@ -5,7 +5,7 @@
 {% block title %} {{ block.super }} | Resultados de {{ question.text }} {% endblock %}
 
 {% block content %}
-<div class="row" id="app">
+<div class="row">
   <div class="col s12 l10 offset-l1">
     <article class="card">
       <div class="card-content">
@@ -47,74 +47,69 @@
 {% endblock %}
 
 {% block js %}
-<script src="{% static 'js/vue.min.js' %}"></script>
 <script src="{% static 'js/axios.min.js' %}"></script>
 <script type="text/javascript">
-new Vue({
-  el: "#app",
-  delimiters: ['${', '}'],
-  data: {
-    hasError: false
-  },
-  methods: {
-    getResults() {
-      const END_POINT = '/api/v1/question/{{question.pk}}/results';
-      const self = this;
+const END_POINT = '/api/v1/question/{{question.pk}}/results';
+var hasError = false;
 
-      axios.get(END_POINT)
-        .then(response => {
-          self.showResults(response);
-        })
-    },
-    showResults(response) {
-      this.handlerError(response.status)
-      if (!this.hasError) {
-        this.makeGraphic(response.data)
-      }
-    },
-    handlerError(statusCode) {
-      const NO_CONTENT = 204;
+$(document).ready(function () {
+  getResults();
+})
 
-      switch (statusCode) {
-        case NO_CONTENT: this.hasError = true;
-          break;
-      }
-    },
-    makeGraphic(result) {
-      var context = document.getElementById('result').getContext('2d');
+function getResults() {
+  axios.get(END_POINT)
+    .then(response => {
+      showResults(response);
+    })
+}
 
-      const {labels, data} = this.makeDataForGraphic(result);  
+function showResults(response) {
+  handlerError(response.status)
+  makeGraphic(response.data)
+}
 
-      new Chart(context, {
-        type: 'pie',
-        data: {
-          labels: labels,
-          datasets: [
-            {
-              label: '# votos',
-              data: data,
-              backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(255, 206, 86, 0.2)'
-              ]
-            }
-          ]
-        }
-      });
-    },
-    makeDataForGraphic(result) {
-      let labels = [];
-      let data = [];
-      for (choice of result.choices) {
-        labels.push(choice.text);
-        data.push(choice.votes);
-      }
-      return { labels, data }
-    }
-  },
-  created() {
-    this.getResults()
+function handlerError(statusCode) {
+  const NO_CONTENT = 204;
+
+  switch (statusCode) {
+    case NO_CONTENT: hasError = true;
+      break;
   }
-}) 
+}
+
+function  makeGraphic(result) {
+  if (!hasError) {
+    var context = document.getElementById('result').getContext('2d');
+
+    const {labels, data} = makeDataForGraphic(result);  
+
+    new Chart(context, {
+      type: 'pie',
+      data: {
+        labels: labels,
+        datasets: [
+          {
+            label: '# votos',
+            data: data,
+            backgroundColor: [
+              'rgba(255, 99, 132, 0.2)',
+              'rgba(255, 206, 86, 0.2)'
+            ]
+          }
+        ]
+      }
+    });
+  }  
+}
+
+function makeDataForGraphic(result) {
+  let labels = [];
+  let data = [];
+  for (choice of result.choices) {
+    labels.push(choice.text);
+    data.push(choice.votes);
+  }
+  return { labels, data }
+}
 </script>
 {% endblock %}
