@@ -16,7 +16,7 @@
         </a>
         <a href="{% url 'polls:results' poll.pk %}"
            class="btn pink darken-3 waves-effect waves-light"
-           data-encuesta="{{ poll.pk }}">
+           data-result="{{ poll.pk }}">
           Resultados <i class="material-icons right">list</i>
         </a>
       </div>
@@ -26,7 +26,7 @@
   <div class="col s12 l10 offset-l1">
     <article class="card hoverable">
       <div class="card-content">
-        <h4 class="card-title center-align orange-text">No hay encuestas abiertas.</h4>
+        <h4 class="card-title center-align orange-text" data-message="message">No hay encuestas abiertas.</h4>
       </div>
     </article>
   </div>

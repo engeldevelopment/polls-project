@@ -4,6 +4,8 @@ from behave import given, when, then
 
 from apps.polls.factories import QuestionFactory
 
+from pages import HomePage
+
 
 @given('que se agregó la encuesta {text} y esta abierta')
 def step_impl(context, text):
@@ -15,12 +17,13 @@ def step_impl(context, text):
 
 @when('vaya al listado')
 def step_impl(context):
-    context.browser.get(context.get_url(reverse('polls:index')))
+    context.home_page = HomePage(context.browser)
+    context.home_page.get(context.get_url(reverse('polls:index')))
 
 
 @then('debe aparecer la encuesta {text}')
 def step_impl(context, text):
-    name = context.browser.find_element_by_tag_name('h4').text
+    name = context.home_page.poll_title.text
 
     context.test.assertEqual(text, name)
 
@@ -37,7 +40,7 @@ def step_impl(context, text):
 
 @then('debe decir {msj}')
 def step_impl(context, msj):
-
-    text = context.browser.find_element_by_tag_name('h4').text
-
-    context.test.assertEqual(text, msj)
+    context.test.assertEqual(
+        context.home_page.message.text,
+        msj
+    )
