@@ -4,8 +4,10 @@ from behave import given, when, then
 
 from apps.polls.factories import ChoiceFactory, QuestionFactory
 
+from pages import ResultPage
 
 # Ver resultados de una encuesta cerrada
+
 
 @given('la encuesta "{encuesta}" y está cerrada')
 def step_impl(context, encuesta):
@@ -28,17 +30,16 @@ def step_impl(context, encuesta):
 @when('yo intente ver los resultados de dicha encuesta')
 def step_impl(context):
 	url = reverse('polls:results', kwargs={'pk': context.question.pk})
-
-	context.browser.get(context.get_url(url))
+	context.result_page = ResultPage(context.browser)
+	context.result_page.get(context.get_url(url))
 
 
 @then('debe informarme "{msj}"')
 def step_impl(context, msj):
-
-	text = context.browser.find_element_by_css_selector('p[data-error]').text
-
-	context.test.assertEqual(msj, text)
-
+	context.test.assertEqual(
+		msj,
+		context.result_page.message.text
+	)
 
 # Ver resultados de una encuesta sin opciones
 
